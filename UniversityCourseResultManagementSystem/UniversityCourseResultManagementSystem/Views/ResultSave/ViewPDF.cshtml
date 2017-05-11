@@ -1,0 +1,73 @@
+﻿@using UniversityManagement.Models
+@model IEnumerable<Course>
+@{
+    Layout = null;
+    Student student = ViewBag.Students;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GetPdf</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+    <div>
+        <div>
+            <h2 style="text-align: center">International Islamic University Chittagong</h2>
+            <h4 style="text-align: center; text-decoration: underline">Student Result Sheet</h4>
+        </div>
+        <br />
+        <br />
+        <br />
+        <div>
+            <table>
+                <tr>
+                    <td>Registration No:</td>
+                    <td>@student.RegistrationNo</td>
+                </tr>
+                <tr>
+                    <td>Name:</td>
+                    <td>@student.StudentName</td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td>@student.Email</td>
+                </tr>
+                <tr>
+                    <td>department:</td>
+                    <td>@student.DepartmentName</td>
+                </tr>
+            </table>
+        </div>
+        <br/>
+        <br/>
+        <div>
+            <table class="table table-bordered table-striped">
+                <thead style="font-weight: bold; color: white;  background-color: #708090">
+                    <tr>
+                        <td>Course Code</td>
+                        <td>Course Name</td>
+                        <td>Grade</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Course course in Model)
+                    {
+                        <tr>
+                            <td>@course.CourseCode</td>
+                            <td>@course.CourseName</td>
+                            <td>@course.Grade</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div>
+            @*<a href="@Url.Action("GetPDF", "ResultSave")" style="text-decoration: none;">Make Pdf</a>*@
+        </div>
+    </div>
+</body>
+</html>

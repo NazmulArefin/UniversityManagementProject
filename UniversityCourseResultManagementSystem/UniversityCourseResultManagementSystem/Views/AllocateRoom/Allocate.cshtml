@@ -1,0 +1,261 @@
+﻿@using UniversityCourseResultManagementSystem.Models
+@{
+    Layout = null;
+    List<Department> departments = ViewBag.Departments;
+    List<Course> courses = ViewBag.Courses;
+    List<Room> rooms = ViewBag.Rooms;
+    List<Day> days = ViewBag.Days;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Allocate</title>
+    <link href="~/Content/reset.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-timepicker.min.css" rel="stylesheet"/>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <style>
+        label.error {
+            color: Red;
+            font-style: italic;
+        }
+
+        .msg {
+            text-align: center;
+            font-size: 20px;
+            font-style: italic;
+            font-weight: bold;
+            border: 4px solid green;
+            position: absolute;
+            top: 500px;
+            left: 700px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="http://localhost:2640/HomeOfUniversity.html">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Projects</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <div class="container-fluid text-center">
+        <div class="row content">
+            <div class="col-sm-2 sidenav">
+                <p><a href="http://localhost:2640/DepartmentSave/DepartmentSave" style="text-decoration: none; font-size: 18px;">Save Department</a></p>
+                <p><a href="http://localhost:2640/DepartmentSave/AllDepartmentView" style="text-decoration: none; font-size: 18px;">View All Departments</a></p>
+                <p><a href="http://localhost:2640/SaveCourse/SaveCourse" style="text-decoration: none; font-size: 18px;">Save Course</a></p>
+                <p><a href="http://localhost:2640/SaveTeacher/SaveTeacher" style="text-decoration: none; font-size: 18px;">Save Teacher</a></p>
+                <p><a href="http://localhost:2640/CourseAssign/CourseAssign" style="text-decoration: none; font-size: 18px;">Course Assign</a></p>
+                <p><a href="http://localhost:2640/ViewCourseStatics/Index" style="text-decoration: none; font-size: 18px;">View Course</a></p>
+                <p><a href="http://localhost:2640/RegisterStudent/Registration" style="text-decoration: none; font-size: 18px;">Register Student</a></p>
+                <p><a href="http://localhost:2640/AllocateRoom/Allocate" style="text-decoration: none; font-size: 18px;">Allocate Classrooms</a></p>
+                <p><a href="http://localhost:2640/ClassSchedule/ClassScheduleInfo" style="text-decoration: none; font-size: 18px;">View schedule</a></p>
+                <p><a href="http://localhost:2640/EnrollCourse/EnrollCourse" style="text-decoration: none; font-size: 18px;">Enroll Course</a></p>
+                <p><a href="http://localhost:2640/ResultSave/SaveResult" style="text-decoration: none; font-size: 18px;">Save result</a></p>
+                <p><a href="http://localhost:2640/ResultSave/ViewResult" style="text-decoration: none; font-size: 18px;">View result</a></p>
+                <p><a href="http://localhost:2640/UnassignAllCourses/UnassignAllCourses" style="text-decoration: none; font-size: 18px;">Unassign Courses</a></p>
+                <p><a href="http://localhost:2640/UnAllocation/UnAllocateRoom" style="text-decoration: none; font-size: 18px;">Unallocate rooms</a></p>
+            </div>
+            <div class="col-sm-8 text-left">
+                @if (ViewBag.Message != null)
+                {
+                    <label class="msg">@ViewBag.Message</label>
+                }
+
+                <form id="allocateRoom" class="form-horizontal" method="POST" action="">
+                    <input type="hidden" name="Id" />
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="DepartmentId">Department:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="DepartmentId" name="DepartmentId">
+                                <option value="">Select</option>
+                                @foreach (Department department in departments)
+                                {
+                                    <option value="@department.Id">@department.DepartmentName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="CourseId">Course:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="CourseId" name="CourseId"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="RoomId">Room No:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="RoomId" name="RoomId">
+                                <option value="">Select</option>
+                                @foreach (Room room in rooms)
+                                {
+                                    <option value="@room.Id">@room.RoomNo</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="DayId">Day:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="DayId" name="DayId">
+                                <option value="">Select</option>
+                                @foreach (Day day in days)
+                                {
+                                    <option value="@day.Id">@day.DayName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="FromTime">From:</label>
+                        <div class="col-sm-10">
+                            <div class="input-group bootstrap-timepicker timepicker" id="FromTime">
+                                <input id="fromTimepicker" name="FromTime" type="text" class="form-control input-small">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="ToTime">To:</label>
+                        <div class="col-sm-10">
+                            <div class="input-group bootstrap-timepicker timepicker" id="ToTime">
+                                <input id="toTimepicker" name="ToTime" type="text" class="form-control input-small">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-default">Allocate</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<footer class="container-fluid text-center">
+    <p>© BugSolver 2016</p>
+</footer>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/bootstrap-timepicker.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    @*<script src="~/Scripts/jquery-3.1.1.js"></script>*@
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/Date.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            //var table = $("#myTable").DataTable();
+            $("#DepartmentId").change(function () {
+                var deptId = $("#DepartmentId").val();
+                //$("#myTable").show();
+                // table.clear().draw(false);
+                //$("#tableBody").empty();
+                $("#CourseId").empty();
+                $("#CourseId").append('<option value="">Select</option>');
+                var json = { DepartmentId: deptId };
+                $.ajax({
+                    type: "POST",
+                    @*//url: '@Url.Action("GetStudentsByDepartmentId", "Department")',*@
+                    url: '/AllocateRoom/GetCoursesByDepartmentId',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        //alert(data);
+                        $.each(data, function (key, value) {
+                            //alert(key);
+                            $("#CourseId").append('<option value="' + value.Id + '">' + value.CourseName + '</option>');
+                            //$("#tableBody").append('<tr><td>' + value.StudentId + '</td><td>' + value.Name + '</td><td>' + value.DepartmentId + '</td></tr>');
+                            //table.row.add([
+                            //    value.StudentId, value.Name, value.DepartmentId
+                            //]).draw(false);
+                        });
+                    }
+                });
+            });
+        });
+
+
+        $(document).ready(function () {
+            // validate the comment form when it is submitted
+            // validate signup form on keyup and submit
+
+            $('#fromTimepicker').timepicker();
+            $('#toTimepicker').timepicker();
+            $('#fromTimepicker').val("");
+            $('#toTimepicker').val("");
+
+            //jQuery.validator.addMethod("toTimeGreaterThanFromTime", function (value, element,params) {
+
+            //    return Date.parse($('#fromTimepicker').val().tot) < Date.parse($('#toTimepicker').val().toString());
+            //});
+
+            $("#allocateRoom").validate({
+                rules: {
+                    DepartmentId: "required",
+                    CourseId: "required",
+                    RoomId: "required",
+                    DayId: "required",
+                    FromTime:
+                    {
+                        required: true,
+                        //toTimeGreaterThanFromTime: true
+                    },
+                    ToTime:
+                    {
+                        required: true,
+                        // toTimeGreaterThanFromTime: true
+                    }
+
+                },
+
+                messages: {
+                    DepartmentId: "Please Select Any Department Name",
+                    CourseId: "Please Select Any Course Name",
+                    RoomId: "Please Select Any Room No",
+                    DayId: "Please Select Any Day",
+                    FromTime:
+                    {
+                        required: "Please Pick Starting Time",
+                        toTimeGreaterThanFromTime: "End Time must be greater than Start Time"
+                    },
+                    ToTime:
+                    {
+                        required: "Please Pick Ending Time",
+                        toTimeGreaterThanFromTime: "End Time must be greater than Start Time"
+                    }
+                }
+
+
+            });
+
+        });
+
+
+    </script>
+</body>
+</html>

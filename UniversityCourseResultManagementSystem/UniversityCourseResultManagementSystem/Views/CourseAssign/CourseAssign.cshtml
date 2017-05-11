@@ -1,0 +1,365 @@
+﻿@using UniversityCourseResultManagementSystem.Models
+@using University_Course_and_Result_Management_System.Manager
+@using University_Course_and_Result_Management_System.Models
+@{
+    Layout = null;
+
+    List<Department> aDepartments = ViewBag.Department;
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CourseAssign</title>
+    <link href="~/UniversityCSS.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <style>
+        label.error {
+            color: red;
+            font-style: italic;
+        }
+    </style>
+
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!--<a class="navbar-brand" href="#">
+                <img src="~/Uni_logo.png"/>
+            </a>-->
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="http://localhost:2640/HomeOfUniversity.html">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Projects</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <!--<ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            </ul>-->
+        </div>
+    </div>
+</nav>
+    <div class="container-fluid text-center">
+        <div class="row content">
+            <div class="col-sm-2 sidenav">
+                <p><a href="http://localhost:2640/DepartmentSave/DepartmentSave" style="text-decoration: none; font-size: 18px;">Save Department</a></p>
+                <p><a href="http://localhost:2640/DepartmentSave/AllDepartmentView" style="text-decoration: none; font-size: 18px;">View All Departments</a></p>
+                <p><a href="http://localhost:2640/SaveCourse/SaveCourse" style="text-decoration: none; font-size: 18px;">Save Course</a></p>
+                <p><a href="http://localhost:2640/SaveTeacher/SaveTeacher" style="text-decoration: none; font-size: 18px;">Save Teacher</a></p>
+                <p><a href="http://localhost:2640/CourseAssign/CourseAssign" style="text-decoration: none; font-size: 18px;">Course Assign</a></p>
+                <p><a href="http://localhost:2640/ViewCourseStatics/Index" style="text-decoration: none; font-size: 18px;">View Course</a></p>
+                <p><a href="http://localhost:2640/RegisterStudent/Registration" style="text-decoration: none; font-size: 18px;">Register Student</a></p>
+                <p><a href="http://localhost:2640/AllocateRoom/Allocate" style="text-decoration: none; font-size: 18px;">Allocate Classrooms</a></p>
+                <p><a href="http://localhost:2640/ClassSchedule/ClassScheduleInfo" style="text-decoration: none; font-size: 18px;">View schedule</a></p>
+                <p><a href="http://localhost:2640/EnrollCourse/EnrollCourse" style="text-decoration: none; font-size: 18px;">Enroll Course</a></p>
+                <p><a href="http://localhost:2640/ResultSave/SaveResult" style="text-decoration: none; font-size: 18px;">Save result</a></p>
+                <p><a href="http://localhost:2640/ResultSave/ViewResult" style="text-decoration: none; font-size: 18px;">View result</a></p>
+                <p><a href="http://localhost:2640/UnassignAllCourses/UnassignAllCourses" style="text-decoration: none; font-size: 18px;">Unassign Courses</a></p>
+                <p><a href="http://localhost:2640/UnAllocation/UnAllocateRoom" style="text-decoration: none; font-size: 18px;">Unallocate rooms</a></p>
+            </div>
+            <div class="col-sm-8 text-left">
+                <fieldset>
+                    <legend>Assign Course to teacher</legend>
+                    <form class="form-horizontal" method="post" id="SaveTeacherForm">
+                        <div class="form-group">
+                            <label for="DepartmentId" class="control-label col-sm-2">Department:</label>
+                            <select class="form-horizontal" id="DepartmentId" name="DepartmentId">
+                                <option value="">---Select---</option>
+                                @foreach (var department in aDepartments)
+                                {
+                                    <option value='@department.Id'>@department.DepartmentName</option>
+                                }
+
+
+                            </select>
+                            <label id="DepartmentIdlog" style="color: red"></label>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="TeacherId" class="control-label col-sm-2">Teacher:</label>
+                            <select class="form-horizontal" id="TeacherId" name="TeacherID"></select>
+                            <label id="TeacherIdlog" style="color: red"></label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="CraditToBeTaken">Cradit To Be Taken:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-horizontal" id="CraditToBeTaken" name="CraditToBeTaken" readonly="readonly">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="ReaminingCredit">Reamining Credit:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-horizontal" id="ReaminingCredit" name="ReaminingCredit" readonly="readonly">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="CourseCode" class="control-label col-sm-2">Course Code:</label>
+                            <select class="form-horizontal" id="CourseId" name="CourseId"></select>
+                            <label class="label-danger" id="log"></label>
+                            <label id="CourseIdlog" style="color: red"></label>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="Name">Name:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-horizontal" id="CourseName" name="CourseName" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="Credit">Credit:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-horizontal" id="Credit" name="Credit" readonly="readonly" onchange="DialogBox()">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="button" class="btn btn-default" id="Save" onclick="DialogBox()">Save</button>
+                            </div>
+                        </div>
+
+
+
+                    </form>
+                </fieldset>
+                <center> <label class="label-default" id="resultLog"></label></center>
+            </div>
+        </div>
+    </div>
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script>
+
+
+    $(document).ready(function() {
+
+        $("#DepartmentId").change(function() {
+            var deptId = $("#DepartmentId").val();
+
+
+            $("#TeacherId").empty();
+            $("#TeacherId").append('<option value="">Select</option>');
+            var json = { departmentId: deptId };
+            $.ajax({
+                type: "POST",
+
+                url: '/CourseAssign/GetTeachers',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function(data) {
+                    //alert(data);
+                    $.each(data, function(key, value) {
+                        //alert(key);
+                        $("#TeacherId").append('<option value="' + value.Id + '">' + value.Name + '</option>');
+
+                    });
+                }
+            });
+
+            $("#CourseId").empty();
+            $("#CourseId").append('<option value="">Select</option>');
+            $.ajax({
+                type: "POST",
+
+                url: '/CourseAssign/GetCourse',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function(data) {
+                    //alert(data);
+                    $.each(data, function(key, value) {
+                        //alert(key);
+                        $("#CourseId").append('<option value="' + value.Id + '">' + value.CourseName + '</option>');
+
+                    });
+                }
+            });
+        });
+
+        $('#TeacherId').change(function() {
+            var teacherId = $("#TeacherId").val();
+            $('#TeacherIdlog').text("");
+            $("#CraditToBeTaken").empty();
+            $("#ReaminingCredit").empty();
+            var json = { teacherId: teacherId };
+            $.ajax({
+                type: "POST",
+
+                url: '/CourseAssign/CraditToBeTaken',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function(data) {
+                    $.each(data, function(key, value) {
+                        $('#CraditToBeTaken').val(value.CraditToBeTaken);
+                        $('#ReaminingCredit').val(value.CraditToRemain);
+                    });
+
+                }
+
+            });
+        });
+
+        $('#CourseId').change(function() {
+            var courseId = $("#CourseId").val();
+            $('#CourseIdlog').text("");
+
+            $("#CourseName").empty();
+            $("#CraditToBeTaken").empty();
+            var json = { courseId: courseId };
+            $.ajax({
+                type: "POST",
+
+                url: '/CourseAssign/GetCourseInfo',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function(data) {
+                    $.each(data, function(key, value) {
+                        $('#CourseName').val(value.CourseName);
+                        $('#Credit').val(value.Credit);
+                    });
+
+                }
+
+            });
+        });
+
+        $('#CourseId').change(function() {
+            var courseId = $("#CourseId").val();
+            $('#CourseIdlog').text("");
+
+            var json = { courseId: courseId };
+            $.ajax({
+                type: "POST",
+
+                url: '/CourseAssign/IsCourseAssignedBesore',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function(data) {
+                    $('#log').text(data);
+                    if (data == 'Already Assigned') {
+                        $("#Save").prop('disabled', true);
+
+                    } else {
+                        $("#Save").prop('disabled', false);
+                    }
+
+                }
+
+
+            });
+        });
+
+
+    });
+
+    function DialogBox() {
+        var credit = $("#Credit").val();
+        var remainCredit = $("#ReaminingCredit").val();
+        var courseId = $("#CourseId").val();
+        var teacherId = $("#TeacherId").val();
+        var departmentId = $("#DepartmentId").val();
+
+
+        if (courseId != "" && departmentId != "" && teacherId != "") {
+            $('#DepartmentIdlog').text("");
+            $('#TeacherIdlog').text("");
+            $('#CourseIdlog').text("");
+            var json = { Credit: credit, ReaminingCredit: remainCredit, CourseId: courseId, TeacherId: teacherId, DepartmentId: departmentId };
+            var sum = remainCredit - credit;
+            //$('#log').text(sum);
+
+
+            if (sum <= 0) {
+
+
+                if (confirm('Do you want to take extra credit?')) {
+
+
+                    $.ajax({
+                        type: "POST",
+
+                        url: '/CourseAssign/CourseAssign',
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(json),
+                        success: function(data) {
+                            $('#resultLog').text(data);
+
+
+                        }
+
+
+                    });
+
+
+                    $("#ReaminingCredit").val(sum);
+
+
+                } else {
+                    $("#Save").prop('disabled', true);
+                }
+            } else {
+                $.ajax({
+                    type: "POST",
+
+                    url: '/CourseAssign/CourseAssign',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function(data) {
+                        $('#resultLog').text(data);
+
+
+                    }
+                });
+                $("#ReaminingCredit").val(sum);
+            }
+            $("#Credit").val("");
+            $("#CourseName").val("");
+
+            $("#CourseId").val("");
+        } else {
+            if (departmentId == "") {
+                $('#DepartmentIdlog').text("Please Select a department");
+                $('#TeacherIdlog').text("Please Select a Teacher");
+                $('#CourseIdlog').text("Please Select a Course");
+            } else if (teacherId == "") {
+
+                $('#TeacherIdlog').text("Please Select a Teacher");
+                $('#CourseIdlog').text("Please Select a Course");
+
+            } else {
+
+                $('#CourseIdlog').text("Please Select a Course");
+
+            }
+
+
+        }
+
+
+    }
+
+
+</script>
+
+    <footer class="container-fluid text-center">
+        <p>© BugSolver 2016</p>
+    </footer>
+</body>
+</html>

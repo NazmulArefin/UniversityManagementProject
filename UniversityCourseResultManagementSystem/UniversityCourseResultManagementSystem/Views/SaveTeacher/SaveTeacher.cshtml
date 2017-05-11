@@ -1,0 +1,215 @@
+﻿@using UniversityCourseResultManagementSystem.Models
+@using University_Course_and_Result_Management_System.Manager
+@{
+    Layout = null;
+    List<Department> aDepartmentList = ViewBag.Department;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SaveTeacher</title>
+    <link href="~/UniversityCSS.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <style>
+        label.error {
+            color: #8b0000;
+            font-style: italic; 
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!--<a class="navbar-brand" href="#">
+                <img src="~/Uni_logo.png"/>
+            </a>-->
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="http://localhost:2640/HomeOfUniversity.html">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Projects</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <!--<ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            </ul>-->
+        </div>
+    </div>
+</nav>
+    <div class="container-fluid text-center">
+        <div class="row content">
+            <div class="col-sm-2 sidenav">
+                <p><a href="http://localhost:2640/DepartmentSave/DepartmentSave" style="text-decoration: none; font-size: 18px;">Save Department</a></p>
+                <p><a href="http://localhost:2640/DepartmentSave/AllDepartmentView" style="text-decoration: none; font-size: 18px;">View All Departments</a></p>
+                <p><a href="http://localhost:2640/SaveCourse/SaveCourse" style="text-decoration: none; font-size: 18px;">Save Course</a></p>
+                <p><a href="http://localhost:2640/SaveTeacher/SaveTeacher" style="text-decoration: none; font-size: 18px;">Save Teacher</a></p>
+                <p><a href="http://localhost:2640/CourseAssign/CourseAssign" style="text-decoration: none; font-size: 18px;">Course Assign</a></p>
+                <p><a href="http://localhost:2640/ViewCourseStatics/Index" style="text-decoration: none; font-size: 18px;">View Course</a></p>
+                <p><a href="http://localhost:2640/RegisterStudent/Registration" style="text-decoration: none; font-size: 18px;">Register Student</a></p>
+                <p><a href="http://localhost:2640/AllocateRoom/Allocate" style="text-decoration: none; font-size: 18px;">Allocate Classrooms</a></p>
+                <p><a href="http://localhost:2640/ClassSchedule/ClassScheduleInfo" style="text-decoration: none; font-size: 18px;">View schedule</a></p>
+                <p><a href="http://localhost:2640/EnrollCourse/EnrollCourse" style="text-decoration: none; font-size: 18px;">Enroll Course</a></p>
+                <p><a href="http://localhost:2640/ResultSave/SaveResult" style="text-decoration: none; font-size: 18px;">Save result</a></p>
+                <p><a href="http://localhost:2640/ResultSave/ViewResult" style="text-decoration: none; font-size: 18px;">View result</a></p>
+                <p><a href="http://localhost:2640/UnassignAllCourses/UnassignAllCourses" style="text-decoration: none; font-size: 18px;">Unassign Courses</a></p>
+                <p><a href="http://localhost:2640/UnAllocation/UnAllocateRoom" style="text-decoration: none; font-size: 18px;">Unallocate rooms</a></p>
+            </div>
+            <div class="col-sm-8 text-left">
+                <fieldset>
+                    <legend>Save Teacher</legend>
+                    <form class="form-horizontal" method="post" id="SaveTeacherForm">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="Name">Name:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="Name" name="Name" placeholder="Enter Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="Address">Address:</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" rows="5" id="Address" name="Address"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="Email">Email:</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" id="Email" name="Email" placeholder="Enter email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="ContactNo">Contact No:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id=" contactno" name="ContactNo" placeholder="Enter Contact No">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Designation" class="control-label col-sm-2">Designation:</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="Designation" name="Designation">
+                                    <option value="">---Select---</option>
+                                    <option value="Assistant Professor">Assistant Professor</option>
+                                    <option value="Associate Professor">Associate Professor</option>
+                                    <option value="Professor">Professor</option>
+                                    <option value="Lecturer">Lecturer</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Department" class="control-label col-sm-2">Department:</label>
+                            <div class="col-sm-10">
+
+                                <select class="form-control" id="Department" name="DepartmentId">
+                                    <option value="">---Select---</option>
+                                    @foreach (var department in aDepartmentList)
+                                    {
+                                        <option value=@department.Id>@department.DepartmentName</option>
+                                    }
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="Email">Credit To Be Taken:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="CraditToBeTaken" name="CraditToBeTaken" placeholder="Enter Credit">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-default">Save</button>
+                            </div>
+                        </div>
+
+                        <label class="label-default">@ViewBag.saveReport</label>
+
+                    </form>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $("#SaveTeacherForm").validate({
+            rules: {
+                Name: "required",
+                ContactNo: {
+                    required: true,
+                    number: true,
+                    minlength: 11,
+                    maxlength: 11
+
+
+                },
+                Address: "required",
+                Email: {
+                    required: true,
+                    email: true,
+                },
+                Designation: "required",
+                DepartmentId: "required",
+                CraditToBeTaken: {
+                    required: true,
+                    number: true,
+                    min: 0
+
+
+                }
+
+
+            },
+            messages: {
+                Name: "Please enter  Name",
+                ContactNo: {
+                    required: "Please enter Contact Number",
+                    number: "Please enter number only",
+                    minlength: "Please enter 11 digit number",
+                    maxlength: "Please enter 11 digit number",
+
+
+                },
+                Address: "Please select a Address",
+                Email: {
+                    required: "Pleace Enter Email",
+                    email: "Please enter in correct formate",
+                },
+                Designation: "Please select a option",
+                DepartmentId: "Please select a option",
+                CraditToBeTaken: {
+                    required: "Please enter Credit",
+                    number: "Please enter number only",
+                    min: "Please avoid Non-Negative number"
+
+
+                }
+            }
+
+
+        });
+    });
+</script>
+    <footer class="container-fluid text-center">
+        <p>© BugSolver 2016</p>
+    </footer>
+</body>
+</html>
